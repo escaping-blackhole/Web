@@ -68,12 +68,11 @@
 </template>
 
 <script>
-  import request from '../assets/request';
   export default {
     courseName: "CourseTable",
     data() {
       return {
-        request: new Request(),
+        // request: new Request(),
         loading: false,
         pageNum: 1,
         pageSize: 10,

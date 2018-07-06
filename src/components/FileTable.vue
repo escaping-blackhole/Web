@@ -8,6 +8,7 @@
     <el-table
       :data="tableData"
       ref="multipleTable"
+      :loading="loading"
       @selection-change="selectionChanged"
       style="width: 100%">
       <el-table-column
@@ -18,40 +19,40 @@
         <template slot-scope="props">
           <el-form label-position="left" inline class="table-expand">
             <el-form-item label="文件名：">
-              <span>{{ props.row.file_name }}</span>
-            </el-form-item>
-            <el-form-item label="姓名：">
               <span>{{ props.row.filename }}</span>
             </el-form-item>
+            <el-form-item label="用户名：">
+              <span>{{ props.row.user.username }}</span>
+            </el-form-item>
             <el-form-item label="课程：">
-              <span>{{ props.row.course }}</span>
+              <span>{{ props.row.coursename }}</span>
             </el-form-item>
-            <el-form-item label="类型：">
-              <span>{{ props.row.type }}</span>
-            </el-form-item>
+            <!--<el-form-item label="类型：">-->
+              <!--<span>{{ props.row.type }}</span>-->
+            <!--</el-form-item>-->
             <el-form-item label="花名：">
-              <span>{{ props.row.nickname }}</span>
+              <span>{{ props.row.user.nickname }}</span>
             </el-form-item>
             <el-form-item label="下载：">
-              <span>{{ props.row.download_count }}</span>
+              <span>{{ props.row.file.downloadCount }}</span>
             </el-form-item>
             <el-form-item label="学号：">
-              <span>{{ props.row.user_no }}</span>
+              <span>{{ props.row.user.userId }}</span>
             </el-form-item>
             <el-form-item label="收藏：">
-              <span>{{ props.row.collect_count }}</span>
+              <span>{{ props.row.file.collectCount }}</span>
             </el-form-item>
             <el-form-item label="专业：">
-              <span>{{ props.row.major }}</span>
+              <span>{{ props.row.user.userMajor }}</span>
             </el-form-item>
             <el-form-item label="喜欢：">
-              <span>{{ props.row.like_count }}</span>
+              <span>{{ props.row.file.likeCount }}</span>
             </el-form-item>
             <el-form-item label="学校：">
-              <span>{{ props.row.school }}</span>
+              <span>{{ props.row.user.userSchool }}</span>
             </el-form-item>
             <el-form-item label="创建日期：">
-              <span>{{ props.row.gmt_create }}</span>
+              <span>{{ props.row.file.gmtCreate }}</span>
             </el-form-item>
           </el-form>
         </template>
@@ -59,50 +60,64 @@
       <el-table-column
         label="文件名">
         <template slot-scope="scope">
-          <span>{{ scope.row.file_name }}</span>
+          <span>{{ scope.row.filename }}</span>
         </template>
       </el-table-column>
       <el-table-column
         width="50"
         label="状态">
         <template slot-scope="scope">
-          <span>{{ scope.row.state }}</span>
+          <span>{{ scope.row.status }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        width="80"
-        label="类型">
-        <template slot-scope="scope">
-          <span>{{ scope.row.type }}</span>
-        </template>
-      </el-table-column>
+      <!--<el-table-column-->
+        <!--width="80"-->
+        <!--label="类型">-->
+        <!--<template slot-scope="scope">-->
+          <!--<span>{{ scope.row.type }}</span>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
       <el-table-column
         width="120"
         label="拥有者">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <p>花名: {{ scope.row.nickname }}</p>
-            <p>姓名: {{ scope.row.filename }}</p>
-            <p>学号: {{ scope.row.user_no }}</p>
-            <p>专业: {{ scope.row.major }}</p>
+            <p>花名: {{ scope.row.user.nickname }}</p>
+            <p>姓名: {{ scope.row.user.username }}</p>
+            <p>学号: {{ scope.row.user.userId }}</p>
+            <p>专业: {{ scope.row.user.userMajor }}</p>
             <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.filename }}</el-tag>
+              <el-tag size="medium">{{ scope.row.user.username }}</el-tag>
             </div>
           </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column
+        width="100"
+        label="下载量">
+        <template slot-scope="scope">
+          <span>{{ scope.row.file.downloadCount }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        width="100"
+        label="收藏量">
+        <template slot-scope="scope">
+          <span>{{ scope.row.file.collectCount }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        width="100"
+        label="喜欢量">
+        <template slot-scope="scope">
+          <span>{{ scope.row.file.likeCount }}</span>
         </template>
       </el-table-column>
       <el-table-column
         label="创建日期">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="日期">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+          <span style="margin-left: 10px">{{ scope.row.file.gmtCreate }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作">
@@ -127,8 +142,8 @@
         <el-form-item label="文件名" prop="filename">
           <el-input v-model="ruleForm.filename"></el-input>
         </el-form-item>
-        <el-form-item label="课程" prop="course">
-          <el-input v-model="ruleForm.course"></el-input>
+        <el-form-item label="课程" prop="coursename">
+          <el-input v-model="ruleForm.coursename"></el-input>
         </el-form-item>
         <el-form-item label="学校" prop="userSchool">
           <el-select v-model="ruleForm.userSchool" placeholder="学校列表" style="width: 100%;">
@@ -163,7 +178,6 @@
         @current-change="handleCurrentChange"
         :current-page="pageNum"
         :page-sizes="[10, 20, 30, 40]"
-        :page-size="100"
         background
         layout="total, sizes, prev, pager, next, jumper"
         :total="tableDataTotal">
@@ -173,18 +187,16 @@
 </template>
 
 <script>
-  import request from '../assets/request';
-  
   export default {
     name: "AdminFileTable",
     data: function () {
       return {
-        request: new Request(),
+        // request: new Request(),
         formVisible: false,
         ruleForm: {
           filename: '',
           userMajor: '',
-          course: '',
+          coursename: '',
           userSchool: ''
         },
         rules: {
@@ -192,7 +204,7 @@
             { required: true, message: '请输入文件名', trigger: 'blur' },
             { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
           ],
-          course: [
+          coursename: [
             { required: true, message: '请输入课程', trigger: 'blur' }
           ],
           userSchool: [
@@ -203,65 +215,29 @@
           ],
         },
         multipleSelection: [],
-        pageNum: 4,
+        pageNum: 1,
         pageSize: 10,
-        tableDataTotal: 32,
-        tableData: [
-          {
-            file_name: "数据库系统设计与实现",
-            file_hash: "0ffd00",
-            download_count: 120,
-            collect_count: 199,
-            like_count: 100,
-            nickname: "元芳",
-            course: "数据库",
-            type: "Word",
-            path: "/image/",
-            user_no: "201500772",
-            state: 1,
-            gmt_create: "2015-05-02",
-            school: "湖北汽车工业学院",
-            filename: '阿妈那阿妈',
-            major: '软件工程'
-          },
-          {
-            file_name: "软件工程导论",
-            file_hash: "0ffdee",
-            download_count: 120,
-            collect_count: 199,
-            like_count: 100,
-            nickname: "元芳",
-            course: "数据库",
-            type: "Word",
-            path: "/image/",
-            user_no: "201500772",
-            state: 1,
-            gmt_create: "2015-05-02",
-            school: "湖北汽车工业学院",
-            filename: '阿妈那阿妈',
-            major: '软件工程'
-          },
-          {
-            file_name: "操作系统原理",
-            file_hash: "0edd55",
-            download_count: 120,
-            collect_count: 199,
-            like_count: 100,
-            nickname: "元芳",
-            course: "数据库",
-            type: "Word",
-            path: "/image/",
-            user_no: "201500772",
-            state: 1,
-            gmt_create: "2015-05-02",
-            school: "湖北汽车工业学院",
-            filename: '阿妈那阿妈',
-            major: '软件工程'
-          },
-        ]
+        tableDataTotal: 0,
+        loading: false,
+        tableData: []
       }
     },
     methods: {
+      async getTableData(pageNum, pageSize) {
+        this.loading = true;
+        var result = await this.request.get('/demo/console/file/list', {
+          pageNum: pageNum || this.pageNum,
+          pageSize: pageSize || this.pageSize
+        });
+        result = JSON.parse(result);
+        if (result.success) {
+          this.tableDataTotal = result.data.total;
+          this.tableData = result.data.list;
+        } else {
+          this.$message.error(result.msg || "抱歉出现了未知错误，请稍候再试");
+        }
+        this.loading = false;
+      },
       handleEdit(index, row) {
         this.formVisible = true;
         this.ruleForm.filename = row.filename;
@@ -279,8 +255,8 @@
         console.log(this.multipleSelection);
       },
       async deleteAll() {
-        var request = new Request();
-        var result = await request.get('/e/test', { pageNum: this.pageNum, pageSize: this.pageSize });
+        // var request = new Request();
+        var result = await this.request.get('/e/test', { pageNum: this.pageNum, pageSize: this.pageSize });
         console.log("deleteAll", result);
         if (this.multipleSelection.length > 0) {
           var selectionSet = new Set(this.multipleSelection);
@@ -310,11 +286,12 @@
           }
         });
       },
-      resetForm() {
-        for (var item in this.ruleForm) {
-          this.ruleForm[item] = '';
-        }
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
       }
+    },
+    created() {
+      this.getTableData();
     }
   }
 </script>

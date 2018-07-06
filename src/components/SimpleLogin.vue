@@ -15,7 +15,6 @@
 </template>
 
 <script>
-  import request from '../assets/request';
   export default {
     name: "SimpleLogin",
     data() {
@@ -37,7 +36,7 @@
         }
       };
       return {
-        request: new Request(),
+        // request: new Request(),
         ruleForm: {
           username: '',
           nickname: '',

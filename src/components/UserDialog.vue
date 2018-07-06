@@ -55,7 +55,6 @@
 </template>
 
 <script>
-  import request from '../assets/request';
   export default {
     name: "UserDialog",
     // 父组件传递的参数
@@ -65,8 +64,8 @@
         if (!value) {
           return callback(new Error('请输入用户名'));
         } else {
-          var request = new Request();
-          var result = await request.post('/demo/user/check', { username: this.ruleForm.username });
+          // var request = new Request();
+          var result = await this.request.post('/demo/user/check', { username: this.ruleForm.username });
           result = JSON.parse(result);
           if (result.success) {
             callback();
@@ -79,8 +78,8 @@
         if (!value) {
           return callback(new Error('请输入花名'));
         } else {
-          var request = new Request();
-          var result = await request.post('/demo/user/check', { nickname: this.ruleForm.nickname });
+          // var request = new Request();
+          var result = await this.request.post('/demo/user/check', { nickname: this.ruleForm.nickname });
           result = JSON.parse(result);
           if (result.success) {
             callback();
@@ -108,7 +107,7 @@
         }
       };
       return {
-        request: new Request(),
+        // request: new Request(),
         dialogVisible: false,
         ruleForm: {
           nickname: '',

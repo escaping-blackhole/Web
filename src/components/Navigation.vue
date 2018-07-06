@@ -34,8 +34,8 @@
         {{ indexConf.text[2] }}
       </router-link>
     </el-menu-item>
-    <el-menu-item index="" style="float: right; margin-right: 20px">
-      <!--<el-button type="success" size="small" plain>登录</el-button>-->
+    <el-menu-item index="" style="float: right; margin-right: 20px; border-bottom: 2px transparent">
+      <el-button type="success" size="small" @click="openDialog" plain>登录</el-button>
     </el-menu-item>
     <AdminLoginDialog
       v-bind:visible="dialogVisible" v-on:closeDialog="closeDialog">
@@ -50,7 +50,7 @@
     components: {AdminLoginDialog},
     data() {
       return {
-        activeIndex: "center",
+        activeIndex: "2-1",
         dialogVisible: false,
         indexConf: {
           tag:["center", "pensonal", "upload"],
@@ -62,8 +62,11 @@
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
+      openDialog() {
+        this.dialogVisible = true;
+      },
       closeDialog() {
-      
+        this.dialogVisible = false;
       }
     }
   }

@@ -19,7 +19,6 @@
 </template>
 
 <script>
-  import request from '../assets/request';
   export default {
     name: "SimpleSignup",
     data() {
@@ -27,8 +26,8 @@
         if (!value) {
           return callback(new Error('用户名不得为空'));
         } else {
-          var request = new Request();
-          var result = await request.post('/demo/console/check', { adminname: this.ruleForm.username });
+          // var request = new Request();
+          var result = await this.request.post('/demo/console/check', { adminname: this.ruleForm.username });
           result = JSON.parse(result);
           if (result.success) {
             callback();
@@ -57,7 +56,7 @@
         }
       };
       return {
-        request: new Request(),
+        // request: new Request(),
         ruleForm: {
           username: '',
           nickname: '',

@@ -76,7 +76,15 @@ Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
+// 登录状态
+Vue.prototype.$auth = {
+  login: false,
+  visible: false
+};
 
+import Request from './assets/request';
+
+Vue.prototype.request = new Request();
 
 new Vue({
   el: '#app',

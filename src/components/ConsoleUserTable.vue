@@ -130,7 +130,6 @@
 </template>
 
 <script>
-  import request from '../assets/request';
   import UserDialog from "./UserDialog";
   export default {
     name: "UserTable",
@@ -144,7 +143,7 @@
         }
       };
       return {
-        request: new Request(),
+        // request: new Request(),
         formVisible: false,
         multipleSelection: [],
         loading: true,
@@ -183,8 +182,10 @@
         if (result.success) {
           this.tableDataTotal = result.data.total;
           this.tableData = result.data.list;
-          this.loading = false;
+        } else {
+          this.$message.error(result.msg);
         }
+        this.loading = false;
         // 获取专业列表
         this.getMajorList();
       },

@@ -33,7 +33,13 @@ export default Request = function() {
         } else if (this.status >= 400 && this.status < 500) {
           resolve(this.response);
         } else if (this.status >= 500) {
-          resolve(this.response);
+          console.log("服务器那里的错误", this.status);
+          resolve(JSON.stringify({
+            "status": 500,
+            "msg": "遇到未知错误",
+            "data": null,
+            "success": false
+          }));
         }
       }
     };
