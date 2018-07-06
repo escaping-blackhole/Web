@@ -7,7 +7,7 @@
           <el-row>
             <el-col :span="24">
               <el-menu
-                default-active="1"
+                default-active="9"
                 @open="handleOpen"
                 :router="true"
                 @close="handleClose">
